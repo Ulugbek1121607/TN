@@ -3,136 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parol bilan kirish</title>
+    <title>Mini Browser</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #212d3b;
+        /* Body to'liq ekran egallashi */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: white;
-            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
         }
-        .container {
-            max-width: 400px;
-            background-color: #1d2733;
-            padding: 20px;
+
+        /* Browser container */
+        .browser {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: #0f3460;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Input */
+        .toolbar input {
+            flex: 1;
+            padding: 12px;
             border-radius: 8px;
+            border: 2px solid #576574;
+            font-size: 16px;
             text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #3e4a59;
-            background-color: #151e27;
+            background: #222f3e;
             color: white;
-            text-align: center;
+            transition: 0.3s;
         }
-        button {
-            background-color: #50a8eb;
+
+        /* Buttons */
+        .toolbar button {
+            padding: 10px 14px;
+            background: #1dd1a1;
             color: white;
-            padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        /* WebView (iframe) */
+        iframe {
+            flex: 1;
             width: 100%;
-        }
-        button:hover {
-            background-color: #3d88c4;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            display: none;
-        }
-        #main-content {
-            display: none;
-            width: 100%;
+            border: none;
+            background: white;
         }
     </style>
 </head>
 <body>
-    <!-- Parol oynasi -->
-    <div id="password-container" class="container">
-        <h2>Parolni kiriting</h2>
-        <input type="password" id="password" placeholder="Parolni kiriting">
-        <p class="error" id="error-text">Noto‘g‘ri parol! Qayta urinib ko‘ring.</p>
-        <button onclick="checkPassword()">Kirish</button>
-    </div>
-
-    <!-- Asosiy kontent (dastur) -->
-    <div id="main-content">
-        <h1 style="text-align: center; color: #64b5ef;">URL Generator</h1>
-        <div class="container" style="max-width: 600px;">
-            <label for="id">ID:</label>
-            <input type="text" id="id" placeholder="Enter ID" oninput="validateID()">
-            <p class="error" id="id-error">ID faqat raqam bo‘lishi kerak va bo‘sh bo‘lishi mumkin emas!</p>
-
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" placeholder="Enter First Name (Optional)">
-
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" placeholder="Enter Last Name (Optional)">
-
-            <button onclick="generateURL()">Generate URL</button>
-            <button id="go-btn" onclick="openURL()" disabled>Go</button>
+    <div class="browser">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button onclick="goBack()">⬅</button>
+            <button onclick="goForward()">➡</button>
+            <button onclick="reloadPage()">🔄</button>
+            <input type="text" id="urlInput" placeholder="Enter URL or search...">
+            <button onclick="loadPage()">🔍</button>
         </div>
+
+        <!-- WebView -->
+        <iframe id="webView" src="https://www.bing.com"></iframe>
     </div>
 
     <script>
-        const correctPassword = "112233"; // Parolni shu yerda o‘zgartiring
-
-        function checkPassword() {
-            let password = document.getElementById('password').value;
-            let errorText = document.getElementById('error-text');
-
-            if (password === correctPassword) {
-                document.getElementById('password-container').style.display = "none";
-                document.getElementById('main-content').style.display = "block";
-            } else {
-                errorText.style.display = "block";
+        function loadPage() {
+            let url = document.getElementById("urlInput").value;
+            if (!url.startsWith("http")) {
+                url = "https://www.bing.com/search?q=" + encodeURIComponent(url);
             }
+            document.getElementById("webView").src = url;
         }
 
-        let generatedUrl = "";
-
-        function validateID() {
-            let userId = document.getElementById('id').value;
-            let errorText = document.getElementById('id-error');
-
-            if (!userId || isNaN(userId)) {
-                errorText.style.display = "block";
-                return false;
-            } else {
-                errorText.style.display = "none";
-                return true;
-            }
+        function goBack() {
+            document.getElementById("webView").contentWindow.history.back();
         }
 
-        function generateURL() {
-            let userId = document.getElementById('id').value;
-            let firstName = document.getElementById('first_name').value || "null";
-            let lastName = document.getElementById('last_name').value || "null";
-
-            if (!validateID()) {
-                return;
-            }
-
-            generatedUrl = `https://d3meqjzgbvi5q8.cloudfront.net/?tgWebAppStartParam=ANNFLY#tgWebAppData=user%3D%257B%2522id%2522%253A${userId}%252C%2522first_name%2522%253A%2522${firstName}%2522%252C%2522last_name%2522%253A%2522${lastName}%2522%252C%2522language_code%2522%253A%2522ru%2522%252C%2522allows_write_to_pm%2522%253Atrue%252C%2522photo_url%2522%253A%2522https%253A%255C%252F%255C%252Ft.me%255C%252Fi%255C%252Fuserpic%255C%252F320%255C%252F_QazM-MHNmY4orNZIKbOIPSYPyUOX0Wmilgarxb1nVfVbC4CqqM010sh1IF7mnLg.svg%2522%257D%26chat_instance%3D-9126670509189720088%26chat_type%3Dsupergroup%26start_param%3DANNFLY%26auth_date%3D1737857749%26signature%3DMwyeZaoxpayABlUbQopkUw15LkKCYRHJC69eM72ba1K8nas51Qyf8OKhrGaUI1qS7G9j_xmOhXMk-hJahQNcBQ%26hash%3Deb30af9f0154f9d3bb6ce997e356f233a8ccc471e0cc337dccab063b879d0ab8&tgWebAppVersion=8.0&tgWebAppPlatform=android&tgWebAppThemeParams=%7B%22bg_color%22%3A%22%23212d3b%22%2C%22section_bg_color%22%3A%22%231d2733%22%2C%22secondary_bg_color%22%3A%22%23151e27%22%2C%22text_color%22%3A%22%23ffffff%22%2C%22hint_color%22%3A%22%237d8b99%22%2C%22link_color%22%3A%22%235eabe1%22%2C%22button_color%22%3A%22%2350a8eb%22%2C%22button_text_color%22%3A%22%23ffffff%22%7D`;
-
-            document.getElementById('go-btn').disabled = false;
+        function goForward() {
+            document.getElementById("webView").contentWindow.history.forward();
         }
 
-        function openURL() {
-            if (generatedUrl) {
-                window.open(generatedUrl, '_blank');
-            } else {
-                alert("Birinchi URL hosil qiling!");
-            }
+        function reloadPage() {
+            document.getElementById("webView").src = document.getElementById("webView").src;
         }
     </script>
 </body>
