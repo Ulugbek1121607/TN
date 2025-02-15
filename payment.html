@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To'lov Sahifasi</title>
+    <style>
+        /* Umumiy stil */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #000033, #000066); /* Kirish sahifasidagi gradient fon */
+            margin: 0;
+            padding: 0;
+            color: #FFFFFF; /* Oq matn */
+            overflow-x: hidden;
+        }
+
+        /* To'lqinli fon animatsiyasi */
+        .wave-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/3JQZQ9m.png'); /* To'lqin rasmi */
+            background-size: 1000px 200px;
+            animation: waveAnimation 10s linear infinite;
+            opacity: 0.3;
+            filter: blur(10px); /* Blur effekti */
+            z-index: 0;
+        }
+
+        @keyframes waveAnimation {
+            0% {
+                background-position-x: 0;
+            }
+
+            100% {
+                background-position-x: 1000px;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(51, 51, 51, 0.8); /* Shaffof qora rang */
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                padding: 10px 15px;
+                font-size: 18px;
+                transition: 0.3s;
+            }
+
+                .navbar a:hover {
+                    background-color: #575757;
+                    border-radius: 5px;
+                }
+
+        /* Main container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* To'lov ma'lumotlari uchun container */
+        .payment-container {
+            background-color: #1E1E1E; /* Qora rangga yaqin, ammo yorqinroq */
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #1E90FF; /* Koʻk rang sarlavha uchun */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .bank-info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+            .bank-info p {
+                margin: 10px 0;
+            }
+
+        #bank-account {
+            font-weight: bold;
+            color: #1E90FF; /* Koʻk rang bank raqami uchun */
+            font-size: 20px;
+        }
+
+        /* Yangi tugma stillari */
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px; /* Yumaloq burchaklar */
+            background: linear-gradient(135deg, #1E90FF, #007BFF); /* Gradient fon */
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soyali effekt */
+            position: relative;
+            overflow: hidden;
+        }
+
+            button:hover {
+                background: linear-gradient(135deg, #007BFF, #1E90FF); /* Hoverda gradientni o'zgartirish */
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Hoverda soyani kuchaytirish */
+                transform: translateY(-2px); /* Tugmani yuqoriga ko'tarish */
+            }
+
+            button:active {
+                transform: translateY(0); /* Bosilganda tugmani asl holatiga qaytarish */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Bosilganda soyani kamaytirish */
+            }
+
+            button::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 300%;
+                height: 300%;
+                background: rgba(255, 255, 255, 0.3); /* Yorqin effekt */
+                border-radius: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                transition: transform 0.5s ease;
+            }
+
+            button:active::after {
+                transform: translate(-50%, -50%) scale(1); /* Bosilganda yorqin effekt */
+                opacity: 0;
+            }
+
+        /* Footer */
+        footer {
+            background-color: rgba(26, 26, 26, 0.8); /* Shaffof qora rang */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+            footer a {
+                color: orange;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+
+    <!-- To'lqinli fon animatsiyasi -->
+    <div class="wave-background"></div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <!-- Navbar content -->
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="payment-container">
+            <h1>To'lov Ma'lumotlari</h1>
+            <div class="bank-info">
+                <p>OOO "KHOREZM EDUCATION CERTIFICATE</p>
+                <p>INN 311853887</p>
+                <p id="bank-account">Bank Raqami: 20208000907196753001</p>
+            </div>
+            <div class="buttons">
+                <button onclick="copyToClipboard()">Nusxa olish</button>
+                <button onclick="generateCheck()">Chekni yuklab olish</button>
+                <button onclick="printCheck()">Chekni chiqarish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            <p>About Us</p>
+            <p>Science Publishing Group (SciencePG) is an Open Access publisher, with more than 300 online, peer-reviewed journals covering a wide range of academic disciplines.</p>
+            <a href="#">Learn More About SciencePG</a>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <p>Products</p>
+            <p>Journals | Special Issues | Proceedings | Books | Academic Events | ScholarProfiles</p>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <p>Information</p>
+            <p>For Authors | For Reviewers | For Editors | For Conference Organizers | For Librarians</p>
+            <p>Special Issues Guide | Editorial Process | Peer Review at SciencePG | Open Access | Ethical Guidelines</p>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <p>Copyright © 2012 – 2025 Science Publishing Group - All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // JavaScript qismi
+        function copyToClipboard() {
+            const bankAccount = document.getElementById('bank-account').innerText;
+            navigator.clipboard.writeText(bankAccount)
+                .then(() => {
+                    alert('Bank raqami nusxa olindi: ' + bankAccount);
+                })
+                .catch(() => {
+                    alert('Nusxa olishda xatolik yuz berdi!');
+                });
+        }
+
+        function generateCheck() {
+            const bankAccount = document.getElementById('bank-account').innerText;
+            const date = new Date().toLocaleDateString();
+
+            // Chek kontentini yangilash
+            document.getElementById('check-bank-account').innerText = bankAccount;
+            document.getElementById('check-date').innerText = date;
+
+            // Chek kontentini olish
+            const content = document.getElementById('check-content').innerHTML;
+
+            const opt = {
+                margin: 10,
+                filename: 'tolov_cheki.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(content).save();
+        }
+
+        function printCheck() {
+            const bankAccount = document.getElementById('bank-account').innerText;
+            const date = new Date().toLocaleDateString();
+
+            const printContent = `
+                        <div style="text-align: center; font-family: Arial, sans-serif;">
+                            <h1 style="color: #1E90FF;">To'lov Cheki</h1>
+                            <p style="font-size: 18px;"><strong>Bank raqami:</strong> ${bankAccount}</p>
+                            <p style="font-size: 18px;"><strong>Sana:</strong> ${date}</p>
+                            <p style="font-size: 18px;"><strong>To'lov miqdori:</strong> Shartnomaga asosan</p>
+                            <p style="font-size: 16px; color: gray;">Chekni saqlang yoki chiqarib oling.</p>
+                        </div>
+                    `;
+
+            const printWindow = window.open('', '', 'width=600,height=600');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+    <!-- html2pdf kutubxonasi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>
