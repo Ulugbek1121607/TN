@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for tn--r8v0hw on 2025-01-26T17:11:41Z
+# fly.toml app configuration file generated for searchtg on 2025-02-09T06:42:29Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'tn--r8v0hw'
-primary_region = 'ams'
+app = 'searchtg'
+primary_region = 'fra'
 
 [build]
 
