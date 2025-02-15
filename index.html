@@ -1,109 +1,108 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Browser</title>
+    <title>Khorazim Certificate</title>
     <style>
-        /* Body to'liq ekran egallashi */
-        html, body {
-            height: 100%;
+        /* Umumiy stil */
+        body {
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
+            background: linear-gradient(135deg, #000033, #000066); /* To'q ko'k gradient fon */
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #FFFFFF; /* Oq matn */
         }
 
-        /* Browser container */
-        .browser {
+        /* Kontayner */
+        .welcome-container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Asosiy matn */
+        .welcome-text {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #FFFFFF; /* Oq rang */
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        /* Qo'shimcha matn */
+        .sub-text {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #ADD8E6; /* Och ko'k rang */
+            animation: fadeIn 5s ease-in-out;
+        }
+
+        /* Matn uchun fadeIn (astagacha paydo bo'lish) animatsiyasi */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* To'lqinli fon animatsiyasi */
+        .wave-background {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
+            background: url('https://i.imgur.com/3JQZQ9m.png'); /* To'lqin rasmi */
+            background-size: 1000px 200px;
+            animation: waveAnimation 10s linear infinite;
+            opacity: 0.3;
+            filter: blur(10px); /* Blur effekti */
+            z-index: 1;
         }
 
-        /* Toolbar */
-        .toolbar {
-            display: flex;
-            gap: 8px;
-            padding: 12px;
-            background: #0f3460;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
+        @keyframes waveAnimation {
+            0% {
+                background-position-x: 0;
+            }
 
-        /* Input */
-        .toolbar input {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #576574;
-            font-size: 16px;
-            text-align: center;
-            background: #222f3e;
-            color: white;
-            transition: 0.3s;
-        }
-
-        /* Buttons */
-        .toolbar button {
-            padding: 10px 14px;
-            background: #1dd1a1;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        /* WebView (iframe) */
-        iframe {
-            flex: 1;
-            width: 100%;
-            border: none;
-            background: white;
+            100% {
+                background-position-x: 1000px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="browser">
-        <!-- Toolbar -->
-        <div class="toolbar">
-            <button onclick="goBack()">⬅</button>
-            <button onclick="goForward()">➡</button>
-            <button onclick="reloadPage()">🔄</button>
-            <input type="text" id="urlInput" placeholder="Enter URL or search...">
-            <button onclick="loadPage()">🔍</button>
-        </div>
+    <!-- To'lqinli fon animatsiyasi -->
+    <div class="wave-background"></div>
 
-        <!-- WebView -->
-        <iframe id="webView" src="https://www.bing.com"></iframe>
+    <!-- Asosiy kontent -->
+    <div class="welcome-container">
+        <div class="welcome-text" id="welcomeText">Welcome to Khorazem Certificate</div>
+        <div class="sub-text" id="subText">Since    2025</div> 
     </div>
 
+    <!-- JavaScript -->
     <script>
-        function loadPage() {
-            let url = document.getElementById("urlInput").value;
-            if (!url.startsWith("http")) {
-                url = "https://www.bing.com/search?q=" + encodeURIComponent(url);
-            }
-            document.getElementById("webView").src = url;
-        }
+        // Welcome yozuvi sekin yo'qolishi
+        setTimeout(() => {
+            const welcomeText = document.getElementById('welcomeText');
+            const subText = document.getElementById('subText');
+            welcomeText.style.animation = 'fadeOut 2s ease-in-out forwards';
+            subText.style.animation = 'fadeOut 2s ease-in-out forwards';
+        }, 5000); // 3 soniyadan so'ng yo'qolish boshlanadi
 
-        function goBack() {
-            document.getElementById("webView").contentWindow.history.back();
-        }
-
-        function goForward() {
-            document.getElementById("webView").contentWindow.history.forward();
-        }
-
-        function reloadPage() {
-            document.getElementById("webView").src = document.getElementById("webView").src;
-        }
+        // Asosiy sahifaga o'tish
+        setTimeout(() => {
+            window.location.href = 'main.html';
+        }, 5000); // 5 soniyadan so'ng sahifaga o'tish
     </script>
 </body>
 </html>
