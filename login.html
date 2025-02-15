@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        /* Umumiy stil */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #000033, #000066);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .wave-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/3JQZQ9m.png');
+            background-size: 1000px 200px;
+            animation: waveAnimation 10s linear infinite;
+            opacity: 0.3;
+            filter: blur(10px);
+            z-index: 0;
+        }
+
+        @keyframes waveAnimation {
+            0% {
+                background-position-x: 0;
+            }
+
+            100% {
+                background-position-x: 1000px;
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            animation: fadeIn 1.5s ease-in-out;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container .title {
+            font-size: 25px;
+            font-weight: 500;
+            position: relative;
+            color: #FFFFFF;
+            width: 100%;
+        }
+
+            .container .title::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                height: 3px;
+                width: 30px;
+                border-radius: 5px;
+                background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            }
+
+        .left-section, .right-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+            .input-box.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .input-box label {
+                color: #FFFFFF;
+                font-size: 16px;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .input-box input,
+            .input-box select,
+            .input-box textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #FFFFFF;
+                font-size: 16px;
+            }
+
+                .input-box input::placeholder,
+                .input-box textarea::placeholder {
+                    color: rgba(255, 255, 255, 0.5);
+                }
+
+        .photo-preview {
+            width: 225px;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: block;
+            margin: 10px auto;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+
+            .button input {
+                width: 50%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background: linear-gradient(135deg, #71b7e6, #9b59b6);
+                color: white;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                transition: 0.3s;
+            }
+
+                .button input:hover {
+                    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+                }
+    </style>
+</head>
+<body>
+    <!-- To'lqinli fon animatsiyasi -->
+    <div class="wave-background"></div>
+
+    <!-- Kontayner -->
+    <form id="registerForm" class="container" onsubmit="submitForm(event)">
+        <h2 class="title">Test Registration</h2>
+
+        <!-- Chap qism -->
+        <div class="left-section">
+            <!-- Ism, Familiya va Otasining ismi -->
+            <div class="input-box">
+                <label>Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="input-box">
+                <label>Surname:</label>
+                <input type="text" id="surname" name="surname" placeholder="Enter your surname" required>
+            </div>
+            <div class="input-box">
+                <label>Family Name:</label>
+                <input type="text" id="familyName" name="familyName" placeholder="Enter your family name" required>
+            </div>
+
+            <!-- Pasport raqami -->
+            <div class="input-box">
+                <label>Passport Number (2 letters + 7 digits):</label>
+                <input type="text" id="passport" name="passport" placeholder="AA1234567" pattern="[A-Za-z]{2}\d{7}" required>
+            </div>
+
+            <!-- Telefon raqami -->
+            <div class="input-box">
+                <label>Phone Number (with country code):</label>
+                <input type="tel" id="phone" name="phone" placeholder="+998901234567" pattern="\+\d{1,3}\d{6,14}" required>
+            </div>
+        </div>
+
+        <!-- O'ng qism -->
+        <div class="right-section">
+            <!-- Region -->
+            <div class="input-box">
+                <label>Region:</label>
+                <select id="region" name="region" required>
+                    <option value="Toshkent">Toshkent</option>
+                    <option value="Andijon">Andijon</option>
+                    <option value="Buxoro">Buxoro</option>
+                    <option value="Farg‘ona">Farg‘ona</option>
+                    <option value="Jizzax">Jizzax</option>
+                    <option value="Xorazm">Xorazm</option>
+                    <option value="Namangan">Namangan</option>
+                    <option value="Navoiy">Navoiy</option>
+                    <option value="Qashqadaryo">Qashqadaryo</option>
+                    <option value="Qoraqalpog‘iston">Qoraqalpog‘iston</option>
+                    <option value="Samarqand">Samarqand</option>
+                    <option value="Sirdaryo">Sirdaryo</option>
+                    <option value="Surxondaryo">Surxondaryo</option>
+                </select>
+            </div>
+
+            <!-- Imtihon sanasi -->
+            <div class="input-box">
+                <label>Exam Date:</label>
+                <input type="date" id="examDate" name="examDate" required>
+            </div>
+
+            <!-- Rasm yuklash -->
+            <div class="input-box">
+                <label>Upload 3x4 Photo:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required onchange="previewPhoto(event)">
+                <img id="photoPreview" class="photo-preview" src="#" style="display: none;">
+            </div>
+
+            <!-- Qo'shimcha ma'lumotlar -->
+            <div class="input-box">
+                <label>Certificate Name:</label>
+                <textarea id="details" name="details" placeholder="Certificate Name"></textarea>
+            </div>
+        </div>
+
+        <!-- Ro'yxatdan o'tish tugmasi -->
+        <div class="button">
+            <input type="submit" value="Register">
+        </div>
+    </form>
+
+    <script>
+        // Rasmni ko'rish
+        function previewPhoto(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('photoPreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Imtihon sanasini cheklash (bugungi sanadan 15 kun keyingi sanagacha)
+        const examDateInput = document.getElementById('examDate');
+        const today = new Date().toISOString().split('T')[0];
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 15);
+        const maxDateFormatted = maxDate.toISOString().split('T')[0];
+
+        examDateInput.setAttribute('min', today);
+        examDateInput.setAttribute('max', maxDateFormatted);
+
+        // Rolling effektini qo'shish
+        const inputBoxes = document.querySelectorAll('.input-box');
+
+        const checkVisibility = () => {
+            inputBoxes.forEach((box) => {
+                const boxTop = box.getBoundingClientRect().top;
+                const boxBottom = box.getBoundingClientRect().bottom;
+
+                if (boxTop < window.innerHeight && boxBottom > 0) {
+                    box.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('load', checkVisibility);
+        window.addEventListener('scroll', checkVisibility);
+
+        // Formani yuborish
+        async function submitForm(event) {
+            event.preventDefault();
+
+            // Ma'lumotlarni yig'ish
+            const formData = {
+                name: document.getElementById("name").value,
+                surname: document.getElementById("surname").value,
+                familyName: document.getElementById("familyName").value,
+                passport: document.getElementById("passport").value,
+                phone: document.getElementById("phone").value,
+                region: document.getElementById("region").value,
+                examDate: document.getElementById("examDate").value,
+                details: document.getElementById("details").value,
+                photo: document.getElementById("photoPreview").src
+            };
+
+            // Ma'lumotlarni saqlash (localStorage ga)
+            localStorage.setItem("registrationData", JSON.stringify(formData));
+
+            // PDF yaratish
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text("Registration Details", 20, 20);
+            doc.text(`Name: ${formData.name}`, 20, 30);
+            doc.text(`Surname: ${formData.surname}`, 20, 40);
+            doc.text(`Family Name: ${formData.familyName}`, 20, 50);
+            doc.text(`Passport: ${formData.passport}`, 20, 60);
+            doc.text(`Phone: ${formData.phone}`, 20, 70);
+            doc.text(`Region: ${formData.region}`, 20, 80);
+            doc.text(`Exam Date: ${formData.examDate}`, 20, 90);
+            doc.text(`Details: ${formData.details}`, 20, 100);
+
+            // Rasmni PDFga qo'shish
+            if (formData.photo) {
+                const img = new Image();
+                img.src = formData.photo;
+                doc.addImage(img, 'JPEG', 20, 110, 50, 50);
+            }
+
+            // PDFni yuklash
+            const pdfBlob = doc.output("blob");
+            // Telegram botga yuborish
+            const botToken = "7502080977:AAE-CwAnQ-z0aBoikqqwKry3f_WaB6LHnQA"; // O'z bot tokenizni qo'ying
+            const chatId = "7680536498"; // O'z chat IDingizni qo'ying
+            const formDataToSend = new FormData();
+            formDataToSend.append("document", pdfBlob, `${formData.passport}.pdf`);
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument?chat_id=${chatId}`, {
+                    method: "POST",
+                    body: formDataToSend
+                });
+
+                if (response.ok) {
+                    alert("Ma'lumotlar muvaffaqiyatli yuborildi!");
+                    window.location.href = "payment.html"; // payment.html sahifasiga o'tish
+                } else {
+                    alert("Ma'lumotlarni yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+                }
+            } catch (error) {
+                console.error("Xatolik:", error);
+                alert("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+            }
+        }
+    </script>
+</body>
+</html>
